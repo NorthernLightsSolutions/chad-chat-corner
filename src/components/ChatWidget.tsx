@@ -4,6 +4,7 @@ import { Send, MinusCircle, X, MessageCircle } from 'lucide-react';
 import ChatMessage from './ChatMessage';
 import FollowUpSuggestion from './FollowUpSuggestion';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // N8N webhook URL
 const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook/f1490af2-fb73-48f4-943b-1205992cb726';
@@ -89,32 +90,38 @@ const ChatWidget = () => {
     setIsLoading(true);
 
     try {
-      // Send message to N8N webhook
+      // Send message to N8N webhook with correct headers and body format
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ message: text }),
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      let responseData;
+      const contentType = response.headers.get("content-type");
+      
+      if (contentType && contentType.includes("application/json")) {
+        responseData = await response.json();
+      } else {
+        // Handle non-JSON responses
+        const textResponse = await response.text();
+        responseData = { response: textResponse || "Received response, but no content was returned." };
       }
-
-      const data = await response.json();
       
       // Add bot response to chat
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: data.response || "Sorry, er ging iets mis. Probeer het later nog eens.",
+        content: responseData.response || "Bedankt voor je bericht. Ik neem zo snel mogelijk contact met je op.",
         sender: 'bot',
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, botResponse]);
       
-      // Update suggestions based on context (you could enhance this with relevant suggestions from backend)
+      // Update suggestions based on context
       setSuggestions([
         "Vertel me meer over Northern Lights",
         "Wat zijn jullie prijzen?",
@@ -144,9 +151,18 @@ const ChatWidget = () => {
       {!isOpen && (
         <button
           onClick={toggleChat}
-          className="fixed bottom-6 left-6 z-50 bg-indigo-600 text-white rounded-full p-4 shadow-lg hover:bg-indigo-700 transition-all duration-300"
+          className="fixed bottom-6 left-6 z-50 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full p-2 shadow-lg transition-all duration-300 flex items-center justify-center w-16 h-16"
         >
-          <MessageCircle size={24} />
+          <div className="relative flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/6cdee4f9-131b-48b9-9758-0bfceaf3ec67.png" 
+              alt="Northern Lights Logo" 
+              className="w-full h-full object-cover" 
+            />
+            <span className="absolute text-white text-xs font-bold whitespace-nowrap" style={{ textShadow: '1px 1px 1px black' }}>
+              Chat with me
+            </span>
+          </div>
         </button>
       )}
 
@@ -161,21 +177,23 @@ const ChatWidget = () => {
         {/* Chat Header */}
         <div className="bg-indigo-600 text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img 
-              src="/lovable-uploads/6cdee4f9-131b-48b9-9758-0bfceaf3ec67.png" 
-              alt="Northern Lights Logo" 
-              className="w-8 h-8 rounded-full object-cover"
-            />
+            <Avatar className="h-8 w-8 border border-white">
+              <AvatarImage 
+                src="/lovable-uploads/6cdee4f9-131b-48b9-9758-0bfceaf3ec67.png" 
+                alt="Northern Lights Logo" 
+              />
+              <AvatarFallback className="bg-indigo-700">NL</AvatarFallback>
+            </Avatar>
             <div>
               <h3 className="font-medium">Chat met Chad</h3>
               <p className="text-xs text-indigo-200">Online</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={toggleMinimize} className="hover:text-indigo-200">
+            <button onClick={toggleMinimize} className="hover:text-indigo-200 p-1">
               <MinusCircle size={18} />
             </button>
-            <button onClick={toggleChat} className="hover:text-indigo-200">
+            <button onClick={toggleChat} className="hover:text-indigo-200 p-1">
               <X size={18} />
             </button>
           </div>
@@ -225,7 +243,7 @@ const ChatWidget = () => {
                 value={message}
                 onChange={handleMessageChange}
                 onKeyPress={handleKeyPress}
-                placeholder="Type your message here..."
+                placeholder="Waar kunnen we je mee helpen?"
                 className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
               <button
