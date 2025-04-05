@@ -90,31 +90,46 @@ const ChatWidget = () => {
     setIsLoading(true);
 
     try {
-      // Send message to N8N webhook with correct headers and body format - sending only the query text
+      // Send message to N8N webhook with correct headers and body format
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
         },
         body: JSON.stringify({ message: text }),
       });
 
-      let responseData;
-      const contentType = response.headers.get("content-type");
+      // Process the response
+      let botResponseText = "Bedankt voor je bericht. Ik neem zo snel mogelijk contact met je op.";
       
-      if (contentType && contentType.includes("application/json")) {
-        responseData = await response.json();
-      } else {
-        // Handle non-JSON responses
-        const textResponse = await response.text();
-        responseData = { response: textResponse || "Received response, but no content was returned." };
+      try {
+        if (response.ok) {
+          const data = await response.text();
+          if (data) {
+            try {
+              const jsonResponse = JSON.parse(data);
+              if (jsonResponse && jsonResponse.response) {
+                botResponseText = jsonResponse.response;
+              }
+            } catch (jsonError) {
+              // If not JSON, use the text response
+              if (data.trim()) {
+                botResponseText = data;
+              }
+            }
+          }
+        } else {
+          console.error('Error response from webhook:', response.status);
+          botResponseText = "Er is een probleem met de verbinding. Probeer het later nog eens.";
+        }
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
       }
       
       // Add bot response to chat
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: responseData.response || "Bedankt voor je bericht. Ik neem zo snel mogelijk contact met je op.",
+        content: botResponseText,
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -191,11 +206,11 @@ const ChatWidget = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={toggleMinimize} className="hover:text-indigo-200 p-1">
-              <MinusCircle size={18} />
+            <button onClick={toggleMinimize} className="hover:text-indigo-200 p-1 bg-indigo-700 rounded-full">
+              <MinusCircle size={20} />
             </button>
-            <button onClick={toggleChat} className="hover:text-indigo-200 p-1">
-              <X size={18} />
+            <button onClick={toggleChat} className="hover:text-indigo-200 p-1 bg-indigo-700 rounded-full">
+              <X size={20} />
             </button>
           </div>
         </div>
