@@ -13,7 +13,7 @@ const ChatButton: React.FC<ChatButtonProps> = ({ onClick }) => {
     >
       <div className="relative flex items-center justify-center w-full h-full">
         <img 
-          src="/lovable-uploads/6cdee4f9-131b-48b9-9758-0bfceaf3ec67.png" 
+          src="https://northernlights.solutions/assets/images/image04.png" 
           alt="Northern Lights Logo" 
           className="w-full h-full object-cover" 
         />
