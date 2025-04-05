@@ -5,8 +5,8 @@
     const iframe = document.createElement('iframe');
     iframe.src = 'https://lovable.dev/projects/1a590242-4722-4b44-9d8c-4c031e15e60e';
     iframe.style.position = 'fixed';
-    iframe.style.bottom = '0';
-    iframe.style.left = '0';
+    iframe.style.bottom = '20px';
+    iframe.style.left = '20px';
     iframe.style.zIndex = '999999'; // Higher z-index to ensure it's on top
     iframe.style.border = 'none';
     iframe.style.width = '380px';  // Slightly larger than the widget to account for any margins
@@ -27,6 +27,7 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeWidget);
   } else {
+    // If DOM is already loaded, initialize immediately
     initializeWidget();
   }
   

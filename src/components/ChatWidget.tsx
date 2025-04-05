@@ -6,8 +6,8 @@ import FollowUpSuggestion from './FollowUpSuggestion';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// N8N webhook URL - updated to new test endpoint
-const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook-test/f1490af2-fb73-48f4-943b-1205992cb726';
+// N8N webhook URL - updated to correct endpoint
+const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook/f1490af2-fb73-48f4-943b-1205992cb726';
 
 // Type definitions
 interface Message {
@@ -190,7 +190,7 @@ const ChatWidget = () => {
           isMinimized ? "h-14" : "h-[500px]"
         )}
       >
-        {/* Chat Header */}
+        {/* Chat Header with highly visible controls */}
         <div className="bg-indigo-600 text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 border border-white">
@@ -205,11 +205,19 @@ const ChatWidget = () => {
               <p className="text-xs text-indigo-200">Online</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={toggleMinimize} className="hover:text-indigo-200 p-1 bg-indigo-700 rounded-full">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={toggleMinimize} 
+              className="hover:text-indigo-200 p-2 bg-indigo-700 rounded-full flex items-center justify-center w-8 h-8"
+              aria-label="Minimize"
+            >
               <MinusCircle size={20} />
             </button>
-            <button onClick={toggleChat} className="hover:text-indigo-200 p-1 bg-indigo-700 rounded-full">
+            <button 
+              onClick={toggleChat} 
+              className="hover:text-indigo-200 p-2 bg-indigo-700 rounded-full flex items-center justify-center w-8 h-8"
+              aria-label="Close"
+            >
               <X size={20} />
             </button>
           </div>
