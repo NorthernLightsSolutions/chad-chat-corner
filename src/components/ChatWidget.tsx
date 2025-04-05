@@ -6,7 +6,7 @@ import FollowUpSuggestion from './FollowUpSuggestion';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// N8N webhook URL - updated to correct endpoint
+// N8N webhook URL - using the correct endpoint
 const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook/f1490af2-fb73-48f4-943b-1205992cb726';
 
 // Type definitions
@@ -49,6 +49,27 @@ const ChatWidget = () => {
       }]);
     }
   }, [isOpen, messages.length]);
+
+  // Send message to parent window when close button is clicked
+  useEffect(() => {
+    if (window.parent && window.parent !== window) {
+      const sendMessageToParent = () => {
+        window.parent.postMessage('close-chat', '*');
+      };
+      
+      // Attach event listener to close button
+      const closeButton = document.getElementById('chat-close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', sendMessageToParent);
+      }
+      
+      return () => {
+        if (closeButton) {
+          closeButton.removeEventListener('click', sendMessageToParent);
+        }
+      };
+    }
+  }, [isOpen]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -190,7 +211,7 @@ const ChatWidget = () => {
           isMinimized ? "h-14" : "h-[500px]"
         )}
       >
-        {/* Chat Header with highly visible controls */}
+        {/* Chat Header with enhanced control buttons */}
         <div className="bg-indigo-600 text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8 border border-white">
@@ -205,20 +226,22 @@ const ChatWidget = () => {
               <p className="text-xs text-indigo-200">Online</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          {/* Large, obvious control buttons */}
+          <div className="flex items-center gap-2">
             <button 
-              onClick={toggleMinimize} 
-              className="hover:text-indigo-200 p-2 bg-indigo-700 rounded-full flex items-center justify-center w-8 h-8"
-              aria-label="Minimize"
+              onClick={toggleMinimize}
+              className="bg-white text-indigo-700 hover:bg-indigo-100 rounded-md px-2 py-1 text-sm font-medium flex items-center gap-1 transition-colors shadow-sm"
             >
-              <MinusCircle size={20} />
+              <MinusCircle size={16} />
+              <span>Min</span>
             </button>
             <button 
-              onClick={toggleChat} 
-              className="hover:text-indigo-200 p-2 bg-indigo-700 rounded-full flex items-center justify-center w-8 h-8"
-              aria-label="Close"
+              id="chat-close-button"
+              onClick={toggleChat}
+              className="bg-white text-indigo-700 hover:bg-indigo-100 rounded-md px-2 py-1 text-sm font-medium flex items-center gap-1 transition-colors shadow-sm"
             >
-              <X size={20} />
+              <X size={16} />
+              <span>Close</span>
             </button>
           </div>
         </div>
