@@ -6,8 +6,8 @@ import FollowUpSuggestion from './FollowUpSuggestion';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// N8N webhook URL
-const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook/f1490af2-fb73-48f4-943b-1205992cb726';
+// N8N webhook URL - updated to new test endpoint
+const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook-test/f1490af2-fb73-48f4-943b-1205992cb726';
 
 // Type definitions
 interface Message {
@@ -90,7 +90,7 @@ const ChatWidget = () => {
     setIsLoading(true);
 
     try {
-      // Send message to N8N webhook with correct headers and body format
+      // Send message to N8N webhook with correct headers and body format - sending only the query text
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: {
@@ -159,8 +159,9 @@ const ChatWidget = () => {
               alt="Northern Lights Logo" 
               className="w-full h-full object-cover" 
             />
-            <span className="absolute text-white text-xs font-bold whitespace-nowrap" style={{ textShadow: '1px 1px 1px black' }}>
-              Chat with me
+            <span className="absolute text-white text-xs font-bold flex flex-col items-center" style={{ textShadow: '1px 1px 1px black' }}>
+              <span>Chad</span>
+              <span>with me</span>
             </span>
           </div>
         </button>
