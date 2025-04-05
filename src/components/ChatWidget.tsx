@@ -11,7 +11,7 @@ import MessageInput from './chat/MessageInput';
 import ChatButton from './chat/ChatButton';
 
 const ChatWidget = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   
   const {
