@@ -58,6 +58,7 @@ const EmbedDemo = () => {
             <li>Alle chatberichten worden verwerkt via je N8N webhook.</li>
             <li>Je kunt de weergave aanpassen door de widget-code te wijzigen.</li>
             <li>De gebruiker kan de chat minimaliseren of sluiten met de knoppen rechtsboven in de widget.</li>
+            <li>Deze versie is CSP-vriendelijk en gebruikt geen eval() or andere onveilige evaluatiemethoden.</li>
           </ul>
         </div>
       </div>

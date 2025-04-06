@@ -9,8 +9,8 @@
     iframe.style.left = '20px';
     iframe.style.zIndex = '999999';
     iframe.style.border = 'none';
-    iframe.style.width = '350px';  // Reduced from 370px
-    iframe.style.height = '480px'; // Reduced from 520px
+    iframe.style.width = '350px';  
+    iframe.style.height = '480px'; 
     iframe.style.overflow = 'hidden';
     iframe.style.pointerEvents = 'auto';
     iframe.style.background = 'transparent';
@@ -79,12 +79,12 @@
     button.appendChild(icon);
     button.appendChild(textOverlay);
     
-    // Hover effect
+    // Hover effect - using function reference instead of string
     button.onmouseover = function() {
-      button.style.transform = 'scale(1.1)';
+      this.style.transform = 'scale(1.1)';
     };
     button.onmouseout = function() {
-      button.style.transform = 'scale(1)';
+      this.style.transform = 'scale(1)';
     };
     
     document.body.appendChild(button);
@@ -92,14 +92,7 @@
     return button;
   }
   
-  // Initialize when the DOM is fully loaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeWidget);
-  } else {
-    // If DOM is already loaded, initialize immediately
-    initializeWidget();
-  }
-  
+  // Initialize function - CSP friendly
   function initializeWidget() {
     const chatWidget = createChatWidget();
     const chatButton = createChatButton();
@@ -142,5 +135,13 @@
         }
       }
     });
+  }
+  
+  // Initialize when the DOM is fully loaded - using direct function instead of eval
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeWidget);
+  } else {
+    // If DOM is already loaded, initialize immediately
+    initializeWidget();
   }
 })();
