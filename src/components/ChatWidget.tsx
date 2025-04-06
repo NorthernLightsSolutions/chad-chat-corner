@@ -60,9 +60,9 @@ const ChatWidget = () => {
       {/* Main Chat Widget */}
       <div 
         className={cn(
-          "fixed bottom-6 left-6 z-50 w-[350px] rounded-3xl shadow-xl transition-all duration-300 overflow-hidden",
+          "fixed bottom-6 left-6 z-50 w-[330px] rounded-3xl shadow-xl transition-all duration-300 overflow-hidden",
           isOpen ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none",
-          isMinimized ? "h-14" : "h-[460px]"
+          isMinimized ? "h-12" : "h-[430px]"
         )}
       >
         {/* Chat Header */}

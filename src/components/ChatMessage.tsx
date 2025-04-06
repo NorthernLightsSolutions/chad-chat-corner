@@ -20,7 +20,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
         "max-w-[80%]",
       )}>
         <div className={cn(
-          "rounded-3xl px-3 py-2 shadow-sm text-sm",
+          "rounded-2xl px-3 py-1.5 shadow-sm text-xs",
           isUser 
             ? "bg-indigo-600 text-white" 
             : "bg-gray-100 text-gray-800"
@@ -28,7 +28,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser, timestamp })
           {message}
         </div>
         <div className={cn(
-          "text-xs mt-0.5 text-gray-400",
+          "text-[10px] mt-0.5 text-gray-400",
           isUser ? "text-right" : "text-left"
         )}>
           {format(timestamp, 'HH:mm', { locale: nl })}

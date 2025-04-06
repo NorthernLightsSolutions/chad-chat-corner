@@ -19,7 +19,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading }) => {
   }, [messages]);
 
   return (
-    <div className="bg-white p-4 h-[330px] overflow-y-auto flex flex-col gap-4">
+    <div className="bg-white p-3 h-[310px] overflow-y-auto flex flex-col gap-3">
       {messages.map((msg) => (
         <ChatMessage 
           key={msg.id} 
@@ -30,11 +30,11 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading }) => {
       ))}
       {isLoading && (
         <div className="flex justify-start">
-          <div className="bg-gray-100 rounded-3xl px-4 py-2 shadow flex items-center max-w-[75%]">
+          <div className="bg-gray-100 rounded-3xl px-3 py-1 shadow flex items-center max-w-[75%]">
             <div className="flex space-x-1">
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
             </div>
           </div>
         </div>
