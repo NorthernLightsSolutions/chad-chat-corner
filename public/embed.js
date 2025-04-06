@@ -9,8 +9,8 @@
     iframe.style.left = '20px';
     iframe.style.zIndex = '999999';
     iframe.style.border = 'none';
-    iframe.style.width = '380px';
-    iframe.style.height = '580px';
+    iframe.style.width = '370px';
+    iframe.style.height = '520px';
     iframe.style.overflow = 'hidden';
     iframe.style.pointerEvents = 'auto';
     iframe.style.background = 'transparent';

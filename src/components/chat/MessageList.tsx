@@ -19,7 +19,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading }) => {
   }, [messages]);
 
   return (
-    <div className="bg-white p-4 h-[370px] overflow-y-auto flex flex-col gap-4">
+    <div className="bg-white p-4 h-[330px] overflow-y-auto flex flex-col gap-4">
       {messages.map((msg) => (
         <ChatMessage 
           key={msg.id} 
