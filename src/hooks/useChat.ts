@@ -16,12 +16,6 @@ export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [suggestions, setSuggestions] = useState<string[]>([
-    "Wat zijn jullie diensten?",
-    "Kan ik een demo aanvragen?",
-    "Wat zijn jullie openingstijden?",
-    "Hoe kan ik contact opnemen?",
-  ]);
 
   // Initial bot message when chat is opened
   useEffect(() => {
@@ -43,11 +37,6 @@ export const useChat = () => {
     if (e.key === 'Enter' && message.trim()) {
       sendMessage();
     }
-  };
-
-  const handleSuggestionClick = (suggestion: string) => {
-    setMessage(suggestion);
-    sendMessage(suggestion);
   };
 
   const sendMessage = async (text = message) => {
@@ -111,14 +100,6 @@ export const useChat = () => {
       };
 
       setMessages((prev) => [...prev, botResponse]);
-      
-      // Update suggestions based on context
-      setSuggestions([
-        "Vertel me meer over Northern Lights",
-        "Wat zijn jullie prijzen?",
-        "Hoe kan ik een afspraak maken?",
-        "Bedankt voor je hulp",
-      ]);
     } catch (error) {
       console.error('Error sending message:', error);
       
@@ -140,10 +121,8 @@ export const useChat = () => {
     messages,
     message,
     isLoading,
-    suggestions,
     handleMessageChange,
     handleKeyPress,
-    handleSuggestionClick,
     sendMessage,
     setMessage
   };

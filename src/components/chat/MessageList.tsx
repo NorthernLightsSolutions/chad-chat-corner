@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from 'react';
 import ChatMessage from '../ChatMessage';
 import { Message } from '@/hooks/useChat';
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface MessageListProps {
   messages: Message[];
@@ -20,7 +19,7 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading }) => {
   }, [messages]);
 
   return (
-    <div className="bg-gray-100 p-3 h-[370px] overflow-y-auto flex flex-col gap-4">
+    <div className="bg-white p-4 h-[370px] overflow-y-auto flex flex-col gap-4">
       {messages.map((msg) => (
         <ChatMessage 
           key={msg.id} 
@@ -31,9 +30,12 @@ const MessageList: React.FC<MessageListProps> = ({ messages, isLoading }) => {
       ))}
       {isLoading && (
         <div className="flex justify-start">
-          <div className="bg-white rounded-lg p-2 shadow flex items-center gap-2 max-w-[75%] animate-pulse">
-            <div className="w-8 h-8 bg-indigo-600 rounded-full flex-shrink-0"></div>
-            <div className="w-20 h-4 bg-gray-200 rounded"></div>
+          <div className="bg-gray-100 rounded-3xl px-4 py-2 shadow flex items-center max-w-[75%]">
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+            </div>
           </div>
         </div>
       )}

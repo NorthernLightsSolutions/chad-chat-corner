@@ -19,26 +19,27 @@ const MessageInput: React.FC<MessageInputProps> = ({
   onSend 
 }) => {
   return (
-    <div className="bg-white p-3 border-t border-gray-200 flex items-center gap-2">
+    <div className="bg-white p-3 border-t border-gray-200 flex items-center gap-2 relative">
       <input
         type="text"
         value={message}
         onChange={onChange}
         onKeyPress={onKeyPress}
-        placeholder="Waar kunnen we je mee helpen?"
-        className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Type in a message..."
+        className="flex-1 bg-gray-100 border-none rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner"
       />
       <button
         onClick={onSend}
         disabled={!message.trim() || isLoading}
         className={cn(
-          "p-2 rounded-full",
+          "p-3 rounded-full shadow-md",
           message.trim() && !isLoading
             ? "bg-indigo-600 text-white hover:bg-indigo-700"
-            : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-gray-300 text-gray-400 cursor-not-allowed"
         )}
+        aria-label="Send message"
       >
-        <Send size={18} />
+        <Send size={20} />
       </button>
     </div>
   );

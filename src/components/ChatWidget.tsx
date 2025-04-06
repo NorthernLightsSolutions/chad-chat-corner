@@ -6,7 +6,6 @@ import { useChat } from '@/hooks/useChat';
 // Import refactored components
 import ChatHeader from './chat/ChatHeader';
 import MessageList from './chat/MessageList';
-import SuggestionsArea from './chat/SuggestionsArea';
 import MessageInput from './chat/MessageInput';
 import ChatButton from './chat/ChatButton';
 
@@ -18,10 +17,8 @@ const ChatWidget = () => {
     messages,
     message,
     isLoading,
-    suggestions,
     handleMessageChange,
     handleKeyPress,
-    handleSuggestionClick,
     sendMessage
   } = useChat();
 
@@ -63,7 +60,7 @@ const ChatWidget = () => {
       {/* Main Chat Widget */}
       <div 
         className={cn(
-          "fixed bottom-6 left-6 z-50 w-[350px] rounded-lg shadow-xl transition-all duration-300 overflow-hidden",
+          "fixed bottom-6 left-6 z-50 w-[350px] rounded-3xl shadow-xl transition-all duration-300 overflow-hidden",
           isOpen ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none",
           isMinimized ? "h-14" : "h-[500px]"
         )}
@@ -81,12 +78,6 @@ const ChatWidget = () => {
             <MessageList 
               messages={messages} 
               isLoading={isLoading} 
-            />
-
-            {/* Suggestions Area */}
-            <SuggestionsArea 
-              suggestions={suggestions} 
-              onSuggestionClick={handleSuggestionClick} 
             />
 
             {/* Message Input */}
