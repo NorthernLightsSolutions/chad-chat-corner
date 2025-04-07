@@ -12,10 +12,26 @@ export interface Message {
 // N8N webhook URL
 const WEBHOOK_URL = 'https://n8n.northernlights.solutions/webhook/f1490af2-fb73-48f4-943b-1205992cb726';
 
+// Generate a unique session ID
+const generateSessionId = () => {
+  // Create a unique ID using timestamp + random string (20 digits total)
+  const timestamp = new Date().getTime().toString();
+  const randomStr = Math.random().toString(36).substring(2, 10);
+  return `${timestamp}-${randomStr}`;
+};
+
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState('');
+
+  // Initialize session ID when chat is opened
+  useEffect(() => {
+    if (!sessionId) {
+      setSessionId(generateSessionId());
+    }
+  }, [sessionId]);
 
   // Initial bot message when chat is opened
   useEffect(() => {
@@ -55,13 +71,17 @@ export const useChat = () => {
     setIsLoading(true);
 
     try {
-      // Send message to N8N webhook
+      // Send message to N8N webhook with session ID
       const response = await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify({
+          message: text,
+          sessionId: sessionId,
+          timestamp: new Date().toISOString()
+        }),
       });
 
       // Process the response
@@ -124,6 +144,7 @@ export const useChat = () => {
     handleMessageChange,
     handleKeyPress,
     sendMessage,
-    setMessage
+    setMessage,
+    sessionId
   };
 };
